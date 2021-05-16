@@ -2,11 +2,16 @@ package com.example.myfarmstory;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.kiwi,
     };
     int withOfBlock, noOfBlocks = 8, widthOfScreen;
+    ArrayList<ImageView> candy = new ArrayList<>();
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,35 @@ public class MainActivity extends AppCompatActivity {
         int heightOfScreen = displayMetrics.heightPixels;
         withOfBlock = widthOfScreen / noOfBlocks;
         createBoard();
+        for (ImageView imageView : candy)
+        {
+            imageView.setOnTouchListener(new OnSwipeListener(this)
+            {
+                @Override
+                void onSwipeLeft() {
+                    super.onSwipeLeft();
+                    Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                void onSwipeRight() {
+                    super.onSwipeRight();
+                    Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                void onSwipeTop() {
+                    super.onSwipeTop();
+                    Toast.makeText(MainActivity.this, "Up", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                void onSwipeBottom() {
+                    super.onSwipeBottom();
+                    Toast.makeText(MainActivity.this, "Down", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void createBoard() {
@@ -47,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setMaxWidth(withOfBlock);
             int randomAgricultural = (int) Math.floor(Math.random()*fruit.length);
             imageView.setImageResource(fruit[randomAgricultural]);
+            candy.add(imageView);
             gridLayout.addView(imageView);
         }
     }
