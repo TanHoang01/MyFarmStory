@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,12 +31,14 @@ public class MainActivity extends AppCompatActivity {
     int notFruit = R.drawable.ic_launcher_background;
     Handler mHandler;
     int interval = 100;
+    TextView scoreResult;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        scoreResult = findViewById(R.id.score);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         widthOfScreen = displayMetrics.widthPixels;
@@ -110,6 +113,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void checkColumnForThree()
+    {
+        for (int i = 0; i < 47; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            int x = i;
+            if ((int) fruit.get(x).getTag() == chosenFruit && !isBlank &&
+                    (int) fruit.get(x+noOfBlocks).getTag() == chosenFruit &&
+                    (int) fruit.get(x+2*noOfBlocks).getTag() == chosenFruit)
+            {
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+            }        }
+    }
+
     Runnable repeatChecker = new Runnable()
     {
         @Override
@@ -118,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             try
             {
                 checkRowForThree();
+                checkColumnForThree();
             }
             finally
             {
