@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ImageView> fruit = new ArrayList<>();
     int fruitToBeDragged, fruitToBeReplaced;
     int notFruit = R.drawable.ic_launcher_background;
-    Handler mHandler = new Handler();
+    Handler mHandler;
     int interval = 100;
 
     @SuppressLint("ClickableViewAccessibility")
