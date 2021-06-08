@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             List<Integer> list = Arrays.asList(notValid);
             if(!list.contains(i))
             {
-                int x = 1;
+                int x = i;
                 if ((int) fruit.get(x++).getTag() == chosenFruit && !isBlank &&
                         (int) fruit.get(x++).getTag() == chosenFruit &&
                         (int) fruit.get(x).getTag() == chosenFruit)
