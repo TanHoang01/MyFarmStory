@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     int withOfBlock, noOfBlocks = 8, widthOfScreen;
     ArrayList<ImageView> fruit = new ArrayList<>();
     int fruitToBeDragged, fruitToBeReplaced;
+    int notFruit = R.drawable.ic_launcher_background;
+    Handler mHandler = new Handler();
+    int interval = 100;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         int heightOfScreen = displayMetrics.heightPixels;
         withOfBlock = widthOfScreen / noOfBlocks;
         createBoard();
-        for (ImageView imageView : fruit)
+        for (final ImageView imageView : fruit)
         {
             imageView.setOnTouchListener(new OnSwipeListener(this)
             {
@@ -58,23 +63,74 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                void onSwipeTop() {
-                    super.onSwipeTop();
+                void onSwipeUp() {
+                    super.onSwipeUp();
                     fruitToBeDragged = imageView.getId();
                     fruitToBeReplaced = fruitToBeDragged - noOfBlocks;
                     fruitInterchange();
                 }
 
                 @Override
-                void onSwipeBottom() {
-                    super.onSwipeBottom();
+                void onSwipeDown() {
+                    super.onSwipeDown();
                     fruitToBeDragged = imageView.getId();
                     fruitToBeReplaced = fruitToBeDragged + noOfBlocks;
                     fruitInterchange();
                 }
             });
         }
+        mHandler = new Handler();
+        startRepeat();
     }
+    private void checkRowForThree()
+    {
+        for (int i = 0; i < 62; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            Integer[] notValid = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55};
+            List<Integer> list = Arrays.asList(notValid);
+            if(!list.contains(i))
+            {
+                int x = 1;
+                if ((int) fruit.get(x++).getTag() == chosenFruit && !isBlank &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x).getTag() == chosenFruit)
+                {
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                }
+            }
+        }
+    }
+
+    Runnable repeatChecker = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            try
+            {
+                checkRowForThree();
+            }
+            finally
+            {
+                mHandler.postDelayed(repeatChecker, interval);
+            }
+        }
+    };
+
+    void startRepeat()
+    {
+        repeatChecker.run();
+    }
+
     private void fruitInterchange()
     {
         int background = (int) fruit.get(fruitToBeReplaced).getTag();

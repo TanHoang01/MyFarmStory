@@ -48,9 +48,9 @@ public class OnSwipeListener implements View.OnTouchListener
             else if (Math.abs(yDiff) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD)
             {
                 if (yDiff > 0)
-                    onSwipeTop();
+                    onSwipeDown();
                 else
-                    onSwipeBottom();
+                    onSwipeUp();
                 result = true;
             }
             return result;
@@ -58,6 +58,6 @@ public class OnSwipeListener implements View.OnTouchListener
     }
     void onSwipeLeft(){}
     void onSwipeRight(){}
-    void onSwipeTop(){}
-    void onSwipeBottom(){}
+    void onSwipeUp(){}
+    void onSwipeDown(){}
 }
