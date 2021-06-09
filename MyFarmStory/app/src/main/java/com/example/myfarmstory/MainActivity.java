@@ -28,10 +28,11 @@ public class MainActivity extends AppCompatActivity {
     int withOfBlock, noOfBlocks = 8, widthOfScreen;
     ArrayList<ImageView> fruit = new ArrayList<>();
     int fruitToBeDragged, fruitToBeReplaced;
-    int notFruit = R.drawable.ic_launcher_background;
+    int notFruit = R.drawable.transparent;
     Handler mHandler;
     int interval = 100;
     TextView scoreResult;
+    int score = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         (int) fruit.get(x++).getTag() == chosenFruit &&
                         (int) fruit.get(x).getTag() == chosenFruit)
                 {
+                    score = score + 3;
+                    scoreResult.setText(String.valueOf(score));
                     fruit.get(x).setImageResource(notFruit);
                     fruit.get(x).setTag(notFruit);
                     x--;
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        moveDownFruits();
     }
 
     private void checkColumnForThree()
@@ -124,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
                     (int) fruit.get(x+noOfBlocks).getTag() == chosenFruit &&
                     (int) fruit.get(x+2*noOfBlocks).getTag() == chosenFruit)
             {
+                score = score + 3;
+                scoreResult.setText(String.valueOf(score));
                 fruit.get(x).setImageResource(notFruit);
                 fruit.get(x).setTag(notFruit);
                 x = x + noOfBlocks;
@@ -132,7 +138,41 @@ public class MainActivity extends AppCompatActivity {
                 x = x + noOfBlocks;
                 fruit.get(x).setImageResource(notFruit);
                 fruit.get(x).setTag(notFruit);
-            }        }
+            }
+        }
+        moveDownFruits();
+    }
+
+    private void moveDownFruits()
+    {
+        Integer[] firstRow = {0,1,2,3,4,5,6,7};
+        List<Integer> list = Arrays.asList(firstRow);
+        for (int i=55; i>=0; i--)
+        {
+            if ((int) fruit.get(i+noOfBlocks).getTag() == notFruit)
+            {
+                fruit.get(i+noOfBlocks).setImageResource((int) fruit.get(i).getTag());
+                fruit.get(i+noOfBlocks).setTag(fruit.get(i).getTag());
+                fruit.get(i).setImageResource(notFruit);
+                fruit.get(i).setTag(notFruit);
+
+                if(list.contains(i) && (int) fruit.get(i).getTag() == notFruit)
+                {
+                    int randomColor = (int) Math.floor(Math.random() * fruits.length);
+                    fruit.get(i).setImageResource(fruits[randomColor]);
+                    fruit.get(i).setTag(fruits[randomColor]);
+                }
+            }
+        }
+        for (int i=0; i<8;i++)
+        {
+            if ((int) fruit.get(i).getTag() == notFruit)
+            {
+                int randomColor = (int) Math.floor(Math.random() * fruits.length);
+                fruit.get(i).setImageResource(fruits[randomColor]);
+                fruit.get(i).setTag(fruits[randomColor]);
+            }
+        }
     }
 
     Runnable repeatChecker = new Runnable()
@@ -144,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 checkRowForThree();
                 checkColumnForThree();
+                moveDownFruits();
             }
             finally
             {
