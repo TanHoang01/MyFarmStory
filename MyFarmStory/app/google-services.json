@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "744964497372",
+    "project_id": "my-farm-story",
+    "storage_bucket": "my-farm-story.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744964497372:android:715c5db884ba9e88c73919",
+        "android_client_info": {
+          "package_name": "com.example.myfarmstory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744964497372-1pmb16gm0iikv3io5r2qogmo8finivih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQjmgE4j9cAkfCyEz89ofJLbeCZ-uU11g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744964497372-1pmb16gm0iikv3io5r2qogmo8finivih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
