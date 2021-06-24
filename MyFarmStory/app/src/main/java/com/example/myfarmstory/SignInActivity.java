@@ -38,6 +38,7 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseAuth auth;
     GoogleSignInClient googleSignInClient;
     FirebaseDatabase database;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
