@@ -19,8 +19,6 @@ public class Users {
         this.mail = mail;
         this.password = password;
     }
-
-
     public String getProfileepic() {
         return profileepic;
     }
