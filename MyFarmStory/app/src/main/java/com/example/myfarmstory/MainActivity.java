@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myfarmstory.databinding.ActivityMainBinding;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.FirebaseUser;
 
 
 import java.util.ArrayList;
@@ -115,9 +120,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.logout:
-                auth.signOut();
-                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(intent);
+                logoutDialog();
                 break;
         }
         return true;
@@ -264,5 +267,27 @@ public class MainActivity extends AppCompatActivity {
             fruit.add(imageView);
             gridLayout.addView(imageView);
         }
+    }
+    private void logoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("                        Cảnh Báo !                  ");
+        builder.setMessage("Bạn có muốn đăng xuất khỏi tài khoản này?");
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                auth.signOut();
+                LoginManager.getInstance().logOut();
+                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.create();
+        builder.show();
     }
 }

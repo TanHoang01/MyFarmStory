@@ -75,12 +75,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="25dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/bt_gg"
-                android:layout_width="wrap_content"
+                android:layout_width="111dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
@@ -91,19 +90,21 @@
                 android:textColor="#0E0E0E"
                 app:backgroundTint="#FAF6F6"
                 app:cornerRadius="4dp" />
-
             <Button
                 android:id="@+id/bt_fb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="0.5"
                 android:drawableLeft="@drawable/facebook__1_"
                 android:padding="15dp"
-                android:text="Facebook"
-                app:backgroundTint="#3F51B5"
+                android:text="FaceBook"
+                android:textColor="@color/white"
+                app:backgroundTint="#FF3700B3"
                 app:cornerRadius="4dp" />
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -116,5 +117,13 @@
         android:text="Play as Guest"
         android:textColor="@color/black"
         android:textSize="18sp" />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
 
 </LinearLayout>
