@@ -143,6 +143,13 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {openDialog();}
         });
+        binding.forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this , ForgotActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     int RC_SIGN_IN = 65;

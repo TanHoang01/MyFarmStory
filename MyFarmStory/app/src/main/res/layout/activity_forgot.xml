@@ -7,7 +7,7 @@
     android:gravity="center"
     android:background="@drawable/_"
     android:orientation="vertical"
-    tools:context=".SignUpActivity">
+    tools:context=".ForgotActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,20 +26,18 @@
             android:layout_height="100dp"
             app:srcCompat="@drawable/joystick__1_" />
 
-        <EditText
-            android:id="@+id/eUserNamesu"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tventeremail"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/white"
-            android:ems="10"
-            android:hint="Username"
-            android:inputType="textPersonName"
-            android:padding="9dp" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Enter Email Here" />
 
         <EditText
-            android:id="@+id/eEmailsu"
+            android:id="@+id/eEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -49,34 +47,22 @@
             android:inputType="textEmailAddress"
             android:padding="9dp" />
 
-        <EditText
-            android:id="@+id/ePassWordsu"
+        <TextView
+            android:id="@+id/tvbacktosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="9dp" />
-
-        <TextView
-            android:id="@+id/haveAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text="Back To Sign In"
             android:layout_gravity="right"
             android:gravity="right"
-            android:padding="5dp"
-            android:text="Already have Account?"
-            android:textColor="#0E0E0E"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="#0E0E0E"/>
 
         <Button
-            android:id="@+id/bt_signup"
+            android:id="@+id/bt_sendPassWord"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:padding="15dp"
-            android:text="Sign Up"
+            android:text="Continue"
             android:textColor="#0E0E0E"
             app:backgroundTint="#FFEB3B"
             app:cornerRadius="4dp" />

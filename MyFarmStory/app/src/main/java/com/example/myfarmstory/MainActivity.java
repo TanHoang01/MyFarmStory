@@ -5,15 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseAuth auth;
+    Dialog dialog;
 
     int[] fruits = {
             R.drawable.strawberry,
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        dialog = new Dialog(this);
         auth = FirebaseAuth.getInstance();
         scoreResult = findViewById(R.id.score);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -106,24 +111,13 @@ public class MainActivity extends AppCompatActivity {
         }
         mHandler = new Handler();
         startRepeat();
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu , menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.logout:
-                logoutDialog();
-                break;
-        }
-        return true;
+        binding.ivsetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opensettingdialog();
+            }
+        });
     }
 
     private void checkRowForThree()
@@ -289,5 +283,32 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create();
         builder.show();
+    }
+    private void opensettingdialog(){
+        dialog.setContentView(R.layout.setting_layout);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button resume = dialog.findViewById(R.id.bt_resume);
+        Button profile = dialog.findViewById(R.id.bt_profile);
+        Button logout = dialog.findViewById(R.id.bt_logout);
+        resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog();
+            }
+        });
+        dialog.show();
     }
 }
