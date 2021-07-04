@@ -1,5 +1,6 @@
 package com.example.myfarmstory;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,35 +11,51 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.example.myfarmstory.Models.Users;
 import com.example.myfarmstory.databinding.ActivityMainBinding;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseAuth auth;
-    Dialog dialog;
+    Dialog dialogsetting,dialogprfile,dialogstart;
+    private FirebaseDatabase database;
+    private DatabaseReference refdatabase;
+    private static final String USERS ="Users";
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMills = START_TIME_IN_MILLIS;
+
 
     int[] fruits = {
             R.drawable.strawberry,
@@ -63,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        dialog = new Dialog(this);
+        dialogsetting = new Dialog(this);
+        dialogprfile = new Dialog(this);
+        dialogstart = new Dialog(this);
         auth = FirebaseAuth.getInstance();
         scoreResult = findViewById(R.id.score);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -111,13 +130,15 @@ public class MainActivity extends AppCompatActivity {
         }
         mHandler = new Handler();
         startRepeat();
-
         binding.ivsetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opensettingdialog();
+                pauseTimer();
             }
         });
+        startDialog();
+        updateCountDownText();
     }
 
     private void checkRowForThree()
@@ -285,22 +306,71 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
     private void opensettingdialog(){
-        dialog.setContentView(R.layout.setting_layout);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogsetting.setContentView(R.layout.setting_layout);
+        dialogsetting.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogsetting.setCanceledOnTouchOutside(false);
 
-        Button resume = dialog.findViewById(R.id.bt_resume);
-        Button profile = dialog.findViewById(R.id.bt_profile);
-        Button logout = dialog.findViewById(R.id.bt_logout);
+        Button resume = dialogsetting.findViewById(R.id.bt_resume);
+        Button restart = dialogsetting.findViewById(R.id.bt_restart);
+        Button profile = dialogsetting.findViewById(R.id.bt_profile);
+        Button logout = dialogsetting.findViewById(R.id.bt_logout);
         resume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                dialogsetting.dismiss();
+                startTimer();
+            }
+        });
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogsetting.dismiss();
+                restartTimer();
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogprfile.setContentView(R.layout.user_layout);
+                dialogprfile.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogprfile.setCanceledOnTouchOutside(false);
+                ImageView back = dialogprfile.findViewById(R.id.iv_back);
+                TextView username = dialogprfile.findViewById(R.id.iv_un);
+                TextView email = dialogprfile.findViewById(R.id.iv_e);
+                TextView highpoint = dialogprfile.findViewById(R.id.iv_hp);
+                if(auth.getCurrentUser() != null){
+                    database = FirebaseDatabase.getInstance();
+                    refdatabase = database.getReference();
+                    refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Users user = snapshot.getValue(Users.class);
+                                if(user == null){
+                                    return;
+                                }
+                                username.setText(user.getUserName());
+                                email.setText(user.getMail());
+                                highpoint.setText(user.getLastpoint());
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+
+                }
+                else{
+                    username.setText("Guest");
+                    email.setText("Guest");
+                    highpoint.setText("Unknow");
+                }
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogprfile.dismiss();
+                    }
+                });
+                dialogprfile.show();
             }
         });
         logout.setOnClickListener(new View.OnClickListener() {
@@ -309,6 +379,114 @@ public class MainActivity extends AppCompatActivity {
                 logoutDialog();
             }
         });
-        dialog.show();
+        dialogsetting.show();
+    }
+    private void startDialog() {
+        dialogstart.setContentView(R.layout.start_dialog);
+        dialogstart.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogstart.setCanceledOnTouchOutside(false);
+        Button start = dialogstart.findViewById(R.id.bt_start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogstart.dismiss();
+                startTimer();
+                score = 0;
+                binding.score.setText("0");
+            }
+        });
+        dialogstart.show();
+    }
+    private void startTimer(){
+        countDownTimer = new CountDownTimer(timeLeftInMills,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMills = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+    private void pauseTimer(){
+        countDownTimer.cancel();
+    }
+    private void restartTimer(){
+        timeLeftInMills = START_TIME_IN_MILLIS;
+        updateCountDownText();
+        startTimer();
+        score = 0;
+        binding.score.setText("0");
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (timeLeftInMills / 10000) / 60;
+        int seconds = (int) (timeLeftInMills / 1000) % 60;
+        String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        binding.countdown.setText(timeLeft);
+        if(minutes == 0 && seconds == 0){
+            pauseTimer();
+            if(auth.getCurrentUser() != null)
+            {
+                database = FirebaseDatabase.getInstance();
+                refdatabase = database.getReference();
+                refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Users user = snapshot.getValue(Users.class);
+                        if(user == null){
+                        user = new Users(auth.getCurrentUser().getDisplayName(), auth.getCurrentUser().getEmail(), null);
+                        refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(user);
+                        }
+                        String lastpoint = user.getLastpoint();
+                        String username = user.getUserName();
+                        String password = user.getPassword();
+                        if(lastpoint == null && password != null){
+                            Users users = new Users();
+                            users.setPassword(password);
+                            users.setMail(auth.getCurrentUser().getEmail());
+                            users.setUserName(username);
+                            users.setLastpoint(String.valueOf(score));
+                            refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
+                        }
+                        else if(lastpoint != null && password != null){
+                            if(Integer.parseInt(lastpoint) < score){
+                                Users users = new Users();
+                                users.setPassword(password);
+                                users.setMail(auth.getCurrentUser().getEmail());
+                                users.setUserName(username);
+                                users.setLastpoint(String.valueOf(score));
+                                refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
+                            }
+                        }
+                        else if(lastpoint == null && password == null)
+                        {
+                            Users users = new Users();
+                            users.setMail(auth.getCurrentUser().getEmail());
+                            users.setUserName(auth.getCurrentUser().getDisplayName());
+                            users.setLastpoint(String.valueOf(score));
+                            refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
+                        }
+                        else if(lastpoint != null && password == null)
+                        {
+                            if(Integer.parseInt(lastpoint) < score){ Users users = new Users();
+                                users.setMail(auth.getCurrentUser().getEmail());
+                                users.setUserName(auth.getCurrentUser().getDisplayName());
+                                users.setLastpoint(String.valueOf(score));
+                                refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+
+        }
     }
 }
