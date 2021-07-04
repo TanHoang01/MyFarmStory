@@ -18,6 +18,7 @@ public class Users {
         this.userName = userName;
         this.mail = mail;
         this.password = password;
+        this.lastpoint = "0";
     }
     public String getProfileepic() {
         return profileepic;
