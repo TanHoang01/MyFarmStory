@@ -489,6 +489,9 @@ public class MainActivity extends AppCompatActivity {
                                 refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
                                 newhighscoreDialog();
                             }
+                            else{
+                                yourscoreDialog();
+                            }
                         }
                         else if(Integer.parseInt(lastpoint) == 0 && password == null)
                         {
@@ -507,6 +510,9 @@ public class MainActivity extends AppCompatActivity {
                                 users.setLastpoint(String.valueOf(score));
                                 refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
                                 newhighscoreDialog();
+                            }
+                            else{
+                                yourscoreDialog();
                             }
                         }
                     }
