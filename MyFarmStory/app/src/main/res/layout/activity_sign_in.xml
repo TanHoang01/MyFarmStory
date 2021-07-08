@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity"
     android:gravity="center"
-    android:background="@drawable/_"
+    android:background="@drawable/login_background"
     android:orientation="vertical"
     >
 
