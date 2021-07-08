@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/_"
+    android:orientation="vertical"
+    tools:context=".ForgotActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/joystick__1_" />
+
+        <TextView
+            android:id="@+id/tventeremail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Enter Email Here" />
+
+        <EditText
+            android:id="@+id/eEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="9dp" />
+
+        <TextView
+            android:id="@+id/tvbacktosignin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back To Sign In"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:textColor="#0E0E0E"/>
+
+        <Button
+            android:id="@+id/bt_sendPassWord"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Continue"
+            android:textColor="#0E0E0E"
+            app:backgroundTint="#FFEB3B"
+            app:cornerRadius="4dp" />
+    </LinearLayout>
+</LinearLayout>
