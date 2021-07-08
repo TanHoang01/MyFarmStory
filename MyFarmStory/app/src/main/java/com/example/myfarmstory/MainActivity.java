@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                         (int) fruit.get(x++).getTag() == chosenFruit &&
                         (int) fruit.get(x).getTag() == chosenFruit)
                 {
-                    score = score + 3;
+                    score = score + 6;
                     scoreResult.setText(String.valueOf(score));
                     fruit.get(x).setImageResource(notFruit);
                     fruit.get(x).setTag(notFruit);
@@ -241,6 +241,79 @@ public class MainActivity extends AppCompatActivity {
             {
                 score = score + 6;
                 scoreResult.setText(String.valueOf(score));
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+            }
+        }
+        moveDownFruits();
+    }
+
+    private void checkRowForFive()
+    {
+        for (int i = 0; i < 62; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            Integer[] notValid = {4, 5, 6, 7, 12, 13, 14, 15, 20, 21, 22, 23, 28, 29, 30, 31, 36, 37, 38, 39, 44, 45, 46, 47, 52, 53, 54, 55};
+            List<Integer> list = Arrays.asList(notValid);
+            if(!list.contains(i))
+            {
+                int x = i;
+                if ((int) fruit.get(x++).getTag() == chosenFruit && !isBlank &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x).getTag() == chosenFruit)
+                {
+                    score = score + 10;
+                    scoreResult.setText(String.valueOf(score));
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    x--;
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                }
+            }
+        }
+        moveDownFruits();
+    }
+
+    private void checkColumnForFive()
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            int x = i;
+            if ((int) fruit.get(x).getTag() == chosenFruit && !isBlank &&
+                    (int) fruit.get(x+noOfBlocks).getTag() == chosenFruit &&
+                    (int) fruit.get(x+2*noOfBlocks).getTag() == chosenFruit &&
+                    (int) fruit.get(x+3*noOfBlocks).getTag() == chosenFruit &&
+                    (int) fruit.get(x+4*noOfBlocks).getTag() == chosenFruit)
+            {
+                score = score + 10;
+                scoreResult.setText(String.valueOf(score));
+                fruit.get(x).setImageResource(notFruit);
+                fruit.get(x).setTag(notFruit);
+                x = x + noOfBlocks;
                 fruit.get(x).setImageResource(notFruit);
                 fruit.get(x).setTag(notFruit);
                 x = x + noOfBlocks;
@@ -296,6 +369,8 @@ public class MainActivity extends AppCompatActivity {
         {
             try
             {
+                checkRowForFive();
+                checkColumnForFive();
                 checkRowForFour();
                 checkColumnForFour();
                 checkRowForThree();
