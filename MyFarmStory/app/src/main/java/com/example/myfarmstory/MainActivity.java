@@ -489,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
                                 refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
                                 newhighscoreDialog();
                             }
-                            else if(Integer.parseInt(lastpoint) > score){
+                            else if(Integer.parseInt(lastpoint) >= score){
                                 yourscoreDialog();
                             }
                         }
@@ -511,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
                                 refdatabase.child(USERS).child(auth.getCurrentUser().getUid()).setValue(users);
                                 newhighscoreDialog();
                             }
-                            else if(Integer.parseInt(lastpoint) > score){
+                            else if(Integer.parseInt(lastpoint) >= score){
                                 yourscoreDialog();
                             }
                         }
