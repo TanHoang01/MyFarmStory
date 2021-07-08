@@ -63,7 +63,8 @@
                 android:gravity="left"
                 android:padding="5dp"
                 android:text="Forgot PassWord?"
-                android:textColor="#0E0E0E"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -80,7 +81,8 @@
                 android:gravity="right"
                 android:padding="5dp"
                 android:text="Click for SignIn"
-                android:textColor="#0E0E0E"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -138,6 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Play as Guest"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="18sp" />
     <com.facebook.login.widget.LoginButton
