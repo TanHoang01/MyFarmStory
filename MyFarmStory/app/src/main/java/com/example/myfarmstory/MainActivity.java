@@ -345,75 +345,210 @@ public class MainActivity extends AppCompatActivity {
                         (int) fruit.get(x+1).getTag() == chosenFruit &&
                         (int) fruit.get(x+2).getTag() == chosenFruit)
                 {
-
-                    int a = x-noOfBlocks;
-
-                    if ((int) fruit.get(a).getTag() == chosenFruit &&
-                            (int) fruit.get(a+noOfBlocks).getTag() == chosenFruit &&
-                            (int) fruit.get(a+2*noOfBlocks).getTag() == chosenFruit &&
-                            (int) fruit.get(a+3*noOfBlocks).getTag() == chosenFruit)
+                    for(int k = x; k < x+3; k++)
                     {
-                        score = score + 20;
-                        scoreResult.setText(String.valueOf(score));
-
-                        fruit.get(a).setImageResource(notFruit);
-                        fruit.get(a).setTag(notFruit);
-                        fruit.get(a + noOfBlocks).setImageResource(notFruit);
-                        fruit.get(a + noOfBlocks).setTag(notFruit);
-                        fruit.get(a + 2*noOfBlocks).setImageResource(notFruit);
-                        fruit.get(a + 2*noOfBlocks).setTag(notFruit);
-                        fruit.get(a + 3*noOfBlocks).setImageResource(notFruit);
-                        fruit.get(a + 3*noOfBlocks).setTag(notFruit);
-
-                        fruit.get(x+1).setImageResource(notFruit);
-                        fruit.get(x+1).setTag(notFruit);
-                        fruit.get(x+2).setImageResource(notFruit);
-                        fruit.get(x+2).setTag(notFruit);
+                        checkCross(k, chosenFruit);
                     }
 
-                    if ((int) fruit.get(a).getTag() == chosenFruit &&
-                            (int) fruit.get(a+noOfBlocks).getTag() == chosenFruit &&
-                            (int) fruit.get(a+2*noOfBlocks).getTag() == chosenFruit)
-                    {
-                        score = score + 15;
-                        scoreResult.setText(String.valueOf(score));
-
-                        fruit.get(a).setImageResource(notFruit);
-                        fruit.get(a).setTag(notFruit);
-                        fruit.get(a + noOfBlocks).setImageResource(notFruit);
-                        fruit.get(a + noOfBlocks).setTag(notFruit);
-                        fruit.get(a + 2*noOfBlocks).setImageResource(notFruit);
-                        fruit.get(a + 2*noOfBlocks).setTag(notFruit);
-
-                        fruit.get(x+1).setImageResource(notFruit);
-                        fruit.get(x+1).setTag(notFruit);
-                        fruit.get(x+2).setImageResource(notFruit);
-                        fruit.get(x+2).setTag(notFruit);
-                    }
-
-                    if ((int) fruit.get(x).getTag() == chosenFruit  &&
-                            (int) fruit.get(x+noOfBlocks).getTag() == chosenFruit &&
-                            (int) fruit.get(x+2*noOfBlocks).getTag() == chosenFruit)
-                    {
-                        score = score + 15;
-                        scoreResult.setText(String.valueOf(score));
-
-                        fruit.get(x).setImageResource(notFruit);
-                        fruit.get(x).setTag(notFruit);
-                        fruit.get(x + noOfBlocks).setImageResource(notFruit);
-                        fruit.get(x + noOfBlocks).setTag(notFruit);
-                        fruit.get(x + 2*noOfBlocks).setImageResource(notFruit);
-                        fruit.get(x + 2*noOfBlocks).setTag(notFruit);
-
-                        fruit.get(x+1).setImageResource(notFruit);
-                        fruit.get(x+1).setTag(notFruit);
-                        fruit.get(x+2).setImageResource(notFruit);
-                        fruit.get(x+2).setTag(notFruit);
-                    }
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    fruit.get(x+1).setImageResource(notFruit);
+                    fruit.get(x+1).setTag(notFruit);
+                    fruit.get(x+2).setImageResource(notFruit);
+                    fruit.get(x+2).setTag(notFruit);
                 }
             }
         }
         moveDownFruits();
+    }
+    private void checkRowForFourAndCross()
+    {
+        for (int i = 0; i < 62; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            Integer[] notValid = {5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55};
+            List<Integer> list = Arrays.asList(notValid);
+            if(!list.contains(i))
+            {
+                int x = i;
+                if ((int) fruit.get(x++).getTag() == chosenFruit && !isBlank &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x).getTag() == chosenFruit)
+                {
+                    for(int k = x+1; k < x+3; k++)
+                    {
+                        checkCross(k, chosenFruit);
+                    }
+
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    fruit.get(x+1).setImageResource(notFruit);
+                    fruit.get(x+1).setTag(notFruit);
+                    fruit.get(x+2).setImageResource(notFruit);
+                    fruit.get(x+2).setTag(notFruit);
+                    fruit.get(x+3).setImageResource(notFruit);
+                    fruit.get(x+3).setTag(notFruit);
+                }
+            }
+        }
+        moveDownFruits();
+    }
+    private void checkRowForFiveAndCross()
+    {
+        for (int i = 0; i < 62; i++)
+        {
+            int chosenFruit = (int) fruit.get(i).getTag();
+            boolean isBlank = (int) fruit.get(i).getTag() == notFruit;
+            Integer[] notValid = {4, 5, 6, 7, 12, 13, 14, 15, 20, 21, 22, 23, 28, 29, 30, 31, 36, 37, 38, 39, 44, 45, 46, 47, 52, 53, 54, 55};
+            List<Integer> list = Arrays.asList(notValid);
+            if(!list.contains(i))
+            {
+                int x = i;
+                if ((int) fruit.get(x++).getTag() == chosenFruit && !isBlank &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x++).getTag() == chosenFruit &&
+                        (int) fruit.get(x).getTag() == chosenFruit)
+                {
+                    int k = x+2;
+                    {
+                        checkCross(k, chosenFruit);
+                    }
+
+                    fruit.get(x).setImageResource(notFruit);
+                    fruit.get(x).setTag(notFruit);
+                    fruit.get(x+1).setImageResource(notFruit);
+                    fruit.get(x+1).setTag(notFruit);
+                    fruit.get(x+2).setImageResource(notFruit);
+                    fruit.get(x+2).setTag(notFruit);
+                    fruit.get(x+3).setImageResource(notFruit);
+                    fruit.get(x+3).setTag(notFruit);
+                }
+            }
+        }
+        moveDownFruits();
+    }
+
+    private void checkCross(int x, int chosenFruit)
+    {
+        int b = x - 2*noOfBlocks;
+
+        if ((int) fruit.get(b).getTag() == chosenFruit  &&
+                (int) fruit.get(b+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+2*noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+3*noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+4*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 20;
+            scoreResult.setText(String.valueOf(score));
+            fruit.get(b).setImageResource(notFruit);
+            fruit.get(b).setTag(notFruit);
+            fruit.get(b + noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + noOfBlocks).setTag(notFruit);
+            fruit.get(b + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 2*noOfBlocks).setTag(notFruit);
+            fruit.get(b + 3*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 3*noOfBlocks).setTag(notFruit);
+            fruit.get(b + 4*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 4*noOfBlocks).setTag(notFruit);
+
+
+        }
+
+        if ((int) fruit.get(b).getTag() == chosenFruit &&
+                (int) fruit.get(b+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+2*noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+3*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 15;
+            scoreResult.setText(String.valueOf(score));
+
+            fruit.get(b).setImageResource(notFruit);
+            fruit.get(b).setTag(notFruit);
+            fruit.get(b + noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + noOfBlocks).setTag(notFruit);
+            fruit.get(b + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 2*noOfBlocks).setTag(notFruit);
+            fruit.get(b + 3*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 3*noOfBlocks).setTag(notFruit);
+
+
+        }
+
+        if ((int) fruit.get(b).getTag() == chosenFruit &&
+                (int) fruit.get(b+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(b+2*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 12;
+            scoreResult.setText(String.valueOf(score));
+
+            fruit.get(b).setImageResource(notFruit);
+            fruit.get(b).setTag(notFruit);
+            fruit.get(b + noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + noOfBlocks).setTag(notFruit);
+            fruit.get(b + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(b + 2*noOfBlocks).setTag(notFruit);
+
+
+        }
+
+
+        int a = x-noOfBlocks;
+
+        if ((int) fruit.get(a).getTag() == chosenFruit &&
+                (int) fruit.get(a+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(a+2*noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(a+3*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 15;
+            scoreResult.setText(String.valueOf(score));
+
+            fruit.get(a).setImageResource(notFruit);
+            fruit.get(a).setTag(notFruit);
+            fruit.get(a + noOfBlocks).setImageResource(notFruit);
+            fruit.get(a + noOfBlocks).setTag(notFruit);
+            fruit.get(a + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(a + 2*noOfBlocks).setTag(notFruit);
+            fruit.get(a + 3*noOfBlocks).setImageResource(notFruit);
+            fruit.get(a + 3*noOfBlocks).setTag(notFruit);
+
+        }
+
+        if ((int) fruit.get(a).getTag() == chosenFruit &&
+                (int) fruit.get(a+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(a+2*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 12;
+            scoreResult.setText(String.valueOf(score));
+
+            fruit.get(a).setImageResource(notFruit);
+            fruit.get(a).setTag(notFruit);
+            fruit.get(a + noOfBlocks).setImageResource(notFruit);
+            fruit.get(a + noOfBlocks).setTag(notFruit);
+            fruit.get(a + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(a + 2*noOfBlocks).setTag(notFruit);
+
+
+        }
+
+        if ((int) fruit.get(x).getTag() == chosenFruit  &&
+                (int) fruit.get(x+noOfBlocks).getTag() == chosenFruit &&
+                (int) fruit.get(x+2*noOfBlocks).getTag() == chosenFruit)
+        {
+            score = score + 12;
+            scoreResult.setText(String.valueOf(score));
+
+            fruit.get(x).setImageResource(notFruit);
+            fruit.get(x).setTag(notFruit);
+            fruit.get(x + noOfBlocks).setImageResource(notFruit);
+            fruit.get(x + noOfBlocks).setTag(notFruit);
+            fruit.get(x + 2*noOfBlocks).setImageResource(notFruit);
+            fruit.get(x + 2*noOfBlocks).setTag(notFruit);
+
+
+        }
     }
 
     private void moveDownFruits()
@@ -456,12 +591,11 @@ public class MainActivity extends AppCompatActivity {
         {
             try
             {
+                checkRowForFiveAndCross();
+                checkRowForFourAndCross();
                 checkRowForThreeAndCross();
-                checkRowForFive();
                 checkColumnForFive();
-                checkRowForFour();
                 checkColumnForFour();
-                checkRowForThree();
                 checkColumnForThree();
                 moveDownFruits();
             }
