@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
         moveDownFruits();
     }
     private void checkRowForFiveAndCross()
-    {
+        {
         for (int i = 0; i < 62; i++)
         {
             int chosenFruit = (int) fruit.get(i).getTag();
@@ -591,9 +591,9 @@ public class MainActivity extends AppCompatActivity {
         {
             try
             {
-                checkRowForFiveAndCross();
-                checkRowForFourAndCross();
-                checkRowForThreeAndCross();
+                checkRowForFive();
+                checkRowForFour();
+                checkRowForThree();
                 checkColumnForFive();
                 checkColumnForFour();
                 checkColumnForThree();
