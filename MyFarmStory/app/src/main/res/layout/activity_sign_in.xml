@@ -80,7 +80,7 @@
                 android:layout_gravity="right"
                 android:gravity="right"
                 android:padding="5dp"
-                android:text="Click for SignIn"
+                android:text="Sign Up"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="18sp" />

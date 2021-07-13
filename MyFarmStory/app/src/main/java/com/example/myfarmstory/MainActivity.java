@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     int fruitToBeDragged, fruitToBeReplaced;
     int notFruit = R.drawable.transparent;
     Handler mHandler;
-    int interval = 200;
+    int interval = 500;
     TextView scoreResult;
     int score = 0;
 
